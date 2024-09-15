@@ -1,17 +1,13 @@
 def main():
-   
-    a, b = map(int, input("Enter two integers (separated by space): ").split())
-
-    
+    a, b = map(int, input("Введите два целых числа (через пробел): ").split())
     if -10**9 <= a <= 10**9 and -10**9 <= b <= 10**9:
         
         result = a + b ** 2
         
-        print("The sum is:", result)
+        print("Сумма:", result)
     else:
         
-        print("Input is out of the allowed range (-10^9 <= a, b <= 10^9)")
-
-
+        print("Ввод вне допустимого диапазона (-10^9 <= a, b <= 10^9)")
+        
 if __name__ == "__main__":
     main()
