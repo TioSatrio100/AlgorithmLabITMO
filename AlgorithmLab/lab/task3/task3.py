@@ -14,20 +14,17 @@ def last_digit_of_fibonacci(n):
     return b
 
 def main():
-    
     base_dir = 'lab'
-    
-   
     input_file_path = os.path.join(base_dir, 'task3', 'input.txt')
     output_file_path = os.path.join(base_dir, 'task3', 'output.txt')
     
-  
     with open(input_file_path, 'r') as file:
         n = int(file.read().strip())
     
+    if not (0 <= n <= 10**7):
+        raise ValueError("Значение n находится вне допустимого диапазона: 0 ≤ n ≤ 10^7")
     
     result = last_digit_of_fibonacci(n)
-    
     
     with open(output_file_path, 'w') as file:
         file.write(f"{result}\n")

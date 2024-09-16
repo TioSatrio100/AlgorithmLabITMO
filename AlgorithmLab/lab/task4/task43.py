@@ -27,8 +27,15 @@ def main():
     input_file_path = os.path.join(base_dir, 'task4', 'input2.txt')
     output_file_path = os.path.join(base_dir, 'task4', 'output2.txt')
     
+    # Validate input format
     with open(input_file_path, 'r') as file:
-        n = int(file.read().strip())
+        try:
+            n = int(file.read().strip())
+            if n < 0 or n > 10**7:
+                raise ValueError("Input is out of the valid range: 0 ≤ n ≤ 10^7")
+        except ValueError as ve:
+            print(f"Ошибка: {ve}")
+            return
     
     result = last_digit_of_fibonacci(n)
     
