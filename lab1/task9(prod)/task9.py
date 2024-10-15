@@ -1,6 +1,11 @@
+
+import sys
 import os
-import time
-import tracemalloc
+
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(base_dir)
+
+from utils import is_file_exists, read_binary_strings_from_file, write_binary_result_to_file, measure_performance
 
 def binary_addition(A, B):
     n = len(A)
@@ -15,21 +20,11 @@ def binary_addition(A, B):
     C[0] = carry
     return C
 
-def main():
-    start_time = time.perf_counter()
-    tracemalloc.start()
-    start_snapshot = tracemalloc.take_snapshot()
-
-    base_dir = 'lab1'
-    input_file_path = os.path.join(base_dir, 'task9(prod)', 'input.txt')
-    output_file_path = os.path.join(base_dir, 'task9(prod)', 'output.txt')
-
-    with open(input_file_path, 'r') as file:
-        line = file.readline().strip()
-        A_str, B_str = line.split()
+def process_file(input_file_path, output_file_path):
+    is_file_exists(input_file_path)
+    A_str, B_str = read_binary_strings_from_file(input_file_path)
 
     n = len(A_str)
-    
     if n < 1 or n > 1000:
         raise ValueError("Длина двоичного числа должна быть в диапазоне: 1 ≤ n ≤ 1000")
 
@@ -37,19 +32,14 @@ def main():
     B = list(map(int, B_str))
 
     C = binary_addition(A, B)
+    write_binary_result_to_file(output_file_path, C)
 
-    with open(output_file_path, 'w') as file:
-        file.write(''.join(map(str, C)) + '\n')
-
-    end_time = time.perf_counter()
-    end_snapshot = tracemalloc.take_snapshot()
-    tracemalloc.stop()
-
-    top_stats = end_snapshot.compare_to(start_snapshot, 'lineno')
-    total_memory_usage = sum(stat.size for stat in top_stats)
-
-    print(f"Время выполнения: {end_time - start_time:.6f} секунд")
-    print(f"Использование памяти: {total_memory_usage} байт")
+def main():
+    base_dir = 'task9(prod)'
+    input_file_path = os.path.join(base_dir,  'input.txt')
+    output_file_path = os.path.join(base_dir,  'output.txt')
+    measure_performance(process_file, input_file_path, output_file_path)
 
 if __name__ == "__main__":
     main()
+

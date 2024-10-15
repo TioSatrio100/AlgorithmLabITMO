@@ -1,20 +1,21 @@
+
+import sys
 import os
-import time
-import tracemalloc
+
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(base_dir)
+
+from utils import is_file_exists, read_integers_from_file, write_sorted_data_to_file2, measure_performance
 
 def insertion_sort_recursive(arr, n):
-    
     if n <= 1:
         return arr
 
-   
     insertion_sort_recursive(arr, n - 1)
 
-   
     key = arr[n - 1]
     j = n - 2
 
-    
     while j >= 0 and arr[j] > key: 
         arr[j + 1] = arr[j]
         j -= 1
@@ -22,53 +23,39 @@ def insertion_sort_recursive(arr, n):
 
     return arr
 
-def main():
-    start_time = time.perf_counter()
-    tracemalloc.start()
-    start_snapshot = tracemalloc.take_snapshot()
+def process_file(input_file_path, output_file_path):
+    
+    is_file_exists(input_file_path)
 
-    base_dir = 'lab1'
-    input_file_path = os.path.join(base_dir, 'task3(prod)', 'input.txt')
-    output_file_path = os.path.join(base_dir, 'task3(prod)', 'output.txt')
-
-    if not os.path.isfile(input_file_path):
-        print("Ошибка: Файл не найден.")
-        return
-
-    with open(input_file_path, 'r') as file:
-        n = int(file.readline())
-        arr = list(map(int, file.readline().split()))
-
-  
+    
+    n, arr = read_integers_from_file(input_file_path)
+    
+   
     if not (1 <= n <= 1000):
-        print("Ошибка: Значение n находится вне допустимого диапазона: 1 ≤ n ≤ 1000")
-        return
+        raise ValueError("Ошибка: Значение n находится вне допустимого диапазона: 1 ≤ n ≤ 1000")
     
     if len(arr) != n:
-        print(f"Ошибка: Количество элементов в arr должно совпадать с n: {n}.")
-        return
+        raise ValueError(f"Ошибка: Количество элементов в arr должно совпадать с n: {n}.")
     
-    for i in range(len(arr)):
-        if not (abs(arr[i]) <= 10**9):
-            print("Ошибка: Значение arr[i] находится вне допустимого диапазона: -10^9 ≤ arr[i] ≤ 10^9")
-            return
+    if any(abs(x) > 10**9 for x in arr):
+        raise ValueError("Ошибка: Значение arr[i] находится вне допустимого диапазона: -10^9 ≤ arr[i] ≤ 10^9")
     
-    result = insertion_sort_recursive(arr, n)
+    
+    sorted_arr = insertion_sort_recursive(arr, n)
+    
+    
+    write_sorted_data_to_file2(output_file_path, sorted_arr)
 
-    with open(output_file_path, 'w') as file:
-        file.write(" ".join(map(str, result)) + "\n")  
+def main():
+    base_dir = 'task3(prod)'
+    input_file_path = os.path.join(base_dir, 'input.txt')
+    output_file_path = os.path.join(base_dir,'output.txt')
 
-    end_time = time.perf_counter()
-    end_snapshot = tracemalloc.take_snapshot()
-    tracemalloc.stop()
-
-    top_stats = end_snapshot.compare_to(start_snapshot, 'lineno')
-    total_memory_usage = sum(stat.size for stat in top_stats)
-
-    print(f"Время выполнения: {end_time - start_time:.6f} секунд")
-    print(f"Общее использование памяти: {total_memory_usage} байт")
+    
+    measure_performance(process_file, input_file_path, output_file_path)
 
 if __name__ == "__main__":
     main()
+
 
 

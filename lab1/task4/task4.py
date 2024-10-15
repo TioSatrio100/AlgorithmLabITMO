@@ -1,51 +1,45 @@
+
+import sys
 import os
-import time
-import tracemalloc
+
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(base_dir)
+
+from utils import is_file_exists, read_integers_from_file2, write_search_results_to_file, measure_performance
 
 def linear_search(arr, target):
     indices = []
     for index in range(len(arr)):
         if arr[index] == target:
-            indices.append(index + 1)  # Indeks 1-based
+            indices.append(index + 1)  
     return indices
 
-def main():
-    start_time = time.perf_counter()
-    tracemalloc.start()
-    start_snapshot = tracemalloc.take_snapshot()
+def process_file(input_file_path, output_file_path):
+    
+    is_file_exists(input_file_path)
 
-    base_dir = 'lab1'
-    input_file_path = os.path.join(base_dir, 'task4', 'input.txt')
-    output_file_path = os.path.join(base_dir, 'task4', 'output.txt')
-
-    with open(input_file_path, 'r') as file:
-        lines = file.readlines()
-        arr = list(map(int, lines[0].strip().split()))
-        target = int(lines[1].strip())
+    
+    arr, target = read_integers_from_file2(input_file_path)
 
     if not (0 <= len(arr) <= 10**3):
         raise ValueError("Длина массива выходит за пределы допустимого диапазона: 0 ≤ n ≤ 10^3")
 
+    
     indices = linear_search(arr, target)
 
-    with open(output_file_path, 'w', encoding='utf-8') as file:
-        if indices:
-            file.write(f"{indices[0]}\n")
-            file.write(f"Количество вхождений: {len(indices)}, Индексы: {', '.join(map(str, indices))}\n")
-        else:
-            file.write("-1\n")
+    
+    write_search_results_to_file(output_file_path, indices)
 
-    end_time = time.perf_counter()
-    end_snapshot = tracemalloc.take_snapshot()
-    tracemalloc.stop()
+def main():
+    base_dir = 'task4'
+    input_file_path = os.path.join(base_dir,  'input.txt')
+    output_file_path = os.path.join(base_dir,  'output.txt')
 
-    top_stats = end_snapshot.compare_to(start_snapshot, 'lineno')
-    total_memory_usage = sum(stat.size for stat in top_stats)
-
-    print(f"Время выполнения: {end_time - start_time:.6f} секунд")
-    print(f"Общее использование памяти: {total_memory_usage} байт")
+    
+    measure_performance(process_file, input_file_path, output_file_path)
 
 if __name__ == "__main__":
     main()
+
 
 

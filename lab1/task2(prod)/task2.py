@@ -1,8 +1,14 @@
+
+import sys
 import os
-import time
-import tracemalloc
+
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(base_dir)
+
+from utils import is_file_exists, read_integers_from_file, write_sorted_data_to_file, measure_performance
 
 def insertion_sort_with_indices(arr):
+   
     n = len(arr)
     indices = list(range(n))
     sorted_arr = arr[:]
@@ -22,45 +28,35 @@ def insertion_sort_with_indices(arr):
     
     return indices, sorted_arr
 
-def main():
-    start_time = time.perf_counter()
-    tracemalloc.start()
-    start_snapshot = tracemalloc.take_snapshot()
+def process_file(input_file_path, output_file_path):
+    
+   
+    is_file_exists(input_file_path)
 
-    base_dir = 'lab1'
-    input_file_path = os.path.join(base_dir, 'task2(prod)', 'input.txt')
-    output_file_path = os.path.join(base_dir, 'task2(prod)', 'output.txt')
-
-    file_exists = os.path.isfile(input_file_path)
-    if not file_exists:
-        print("Ошибка: Файл не найден.")
-        return
-
-    with open(input_file_path, 'r') as file:
-        n = int(file.readline().strip())
-        u_arr = list(map(int, file.readline().strip().split()))
+    
+    n, u_arr = read_integers_from_file(input_file_path)
+    
     
     if 1 <= n <= 10**3 and len(u_arr) == n:
         if all(abs(value) <= 10**9 for value in u_arr):
             result_indices, sorted_arr = insertion_sort_with_indices(u_arr)
-            with open(output_file_path, 'w') as file:
-                file.write(' '.join(map(str, [index + 1 for index in result_indices])) + '\n')
-                file.write(' '.join(map(str, sorted_arr)) + '\n')
+            
+            
+            write_sorted_data_to_file(output_file_path, result_indices, sorted_arr)
         else:
             print("Ошибка: Значения u_arr[i] находятся вне допустимого диапазона: -10^9 ≤ u_arr[i] ≤ 10^9.")
     else:
         print("Ошибка: Значение n должно быть в диапазоне 1 ≤ n ≤ 1000 и количество элементов должно совпадать с n.")
 
-    end_time = time.perf_counter()
-    end_snapshot = tracemalloc.take_snapshot()
-    tracemalloc.stop()
-
-    top_stats = end_snapshot.compare_to(start_snapshot, 'lineno')
-    total_memory_usage = sum(stat.size for stat in top_stats)
-
-    print(f"Время выполнения: {end_time - start_time:.6f} секунд")
-    print(f"Общее использование памяти: {total_memory_usage} байт")
+def main():
+    base_dir = 'task2(prod)'
+    input_file_path = os.path.join(base_dir,  'input.txt')
+    output_file_path = os.path.join(base_dir, 'output.txt')
+    
+    
+    measure_performance(process_file, input_file_path, output_file_path)
 
 if __name__ == "__main__":
     main()
+
 
