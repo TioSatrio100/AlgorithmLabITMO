@@ -21,8 +21,8 @@ def write_to_file(file_path, data):
 # Read integers from file, but cope if the format changes
 def read_integers_from_file(file_path):
     lines = read_file(file_path)
-    if not lines:  # Check if the read was successful
-        return 0, []  # Return empty values if file was not found
+    if not lines:  
+        return 0, []  
     n = int(lines[0])
     arr = list(map(int, lines[1].split()))  
     return n, arr
