@@ -2,18 +2,8 @@ import os
 import time
 import tracemalloc
 
-# Universal file existence check, returns True or False
-def is_file_exists(file_path):
-    if os.path.isfile(file_path):
-        return True
-    else:
-        print(f"Ошибка: Файл '{file_path}' не найден.")
-        return False
-
 # Universal file reader that returns the content as a list of strings
 def read_file(file_path):
-    if not is_file_exists(file_path):
-        raise FileNotFoundError(f"Ошибка: Файл '{file_path}' не найден.")
     with open(file_path, 'r') as file:
         return [line.strip() for line in file.readlines()]
 

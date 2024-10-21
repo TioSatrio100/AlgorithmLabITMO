@@ -5,7 +5,7 @@ import os
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(base_dir)
 
-from utils import is_file_exists, read_file, write_array_to_file, measure_performance
+from utils import read_file, write_array_to_file, measure_performance
 
 def binary_addition(A, B):
     n = len(A)
@@ -21,8 +21,6 @@ def binary_addition(A, B):
     return C
 
 def process_file(input_file_path, output_file_path):
-    if not is_file_exists(input_file_path):
-        raise FileNotFoundError(f"Ошибка: Файл '{input_file_path}' не найден.")
     lines = read_file(input_file_path)
 
     if len(lines) < 1:

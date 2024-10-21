@@ -5,7 +5,7 @@ import os
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(base_dir)
 
-from utils import is_file_exists, read_integers_from_file, write_to_file, measure_performance
+from utils import read_integers_from_file, write_to_file, measure_performance
 
 def insertion_sort_recursive(arr, n):
     if n <= 1:
@@ -24,9 +24,6 @@ def insertion_sort_recursive(arr, n):
     return arr
 
 def process_file(input_file_path, output_file_path):
-    
-    is_file_exists(input_file_path)
-
     
     n, arr = read_integers_from_file(input_file_path)
     
