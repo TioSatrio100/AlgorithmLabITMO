@@ -5,7 +5,7 @@ import os
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(base_dir)
 
-from utils import is_file_exists, read_integers_from_file, write_sorted_data_to_file2, measure_performance
+from utils import is_file_exists, read_integers_from_file, write_to_file, measure_performance
 
 def insertion_sort_recursive(arr, n):
     if n <= 1:
@@ -44,7 +44,7 @@ def process_file(input_file_path, output_file_path):
     sorted_arr = insertion_sort_recursive(arr, n)
     
     
-    write_sorted_data_to_file2(output_file_path, sorted_arr)
+    write_to_file(output_file_path, sorted_arr)
 
 def main():
     base_dir = 'task3(prod)'

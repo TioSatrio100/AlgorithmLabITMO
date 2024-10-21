@@ -5,7 +5,7 @@ import os
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(base_dir)
 
-from utils import is_file_exists, read_integers_from_file2, write_search_results_to_file, measure_performance
+from utils import is_file_exists, read_file, write_to_file, measure_performance
 
 def linear_search(arr, target):
     indices = []
@@ -19,7 +19,7 @@ def process_file(input_file_path, output_file_path):
     is_file_exists(input_file_path)
 
     
-    arr, target = read_integers_from_file2(input_file_path)
+    arr, target = read_file(input_file_path)
 
     if not (0 <= len(arr) <= 10**3):
         raise ValueError("Длина массива выходит за пределы допустимого диапазона: 0 ≤ n ≤ 10^3")
@@ -28,7 +28,7 @@ def process_file(input_file_path, output_file_path):
     indices = linear_search(arr, target)
 
     
-    write_search_results_to_file(output_file_path, indices)
+    write_to_file(output_file_path, indices)
 
 def main():
     base_dir = 'task4'

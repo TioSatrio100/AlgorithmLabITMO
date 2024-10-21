@@ -6,7 +6,7 @@ base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(base_dir)
 
 
-from utils import is_file_exists, read_integers_from_file, write_swaps_to_file, measure_performance
+from utils import is_file_exists, read_integers_from_file, write_to_file, measure_performance
 
 def bubble_sort_with_swaps(arr):
     swaps = []
@@ -31,7 +31,7 @@ def process_file(input_file_path, output_file_path):
         raise ValueError("Длина массива должна быть в пределах: 3 ≤ n ≤ 5000")
     
     result, swaps = bubble_sort_with_swaps(arr)
-    write_swaps_to_file(output_file_path, swaps)
+    write_to_file(output_file_path, swaps)
 
 def main():
     base_dir = 'task8'

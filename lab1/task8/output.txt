@@ -4,4 +4,3 @@ Swap elements at indices 4 and 5.
 Swap elements at indices 5 and 6.
 Swap elements at indices 2 and 3.
 Swap elements at indices 3 and 4.
-No more swaps needed.
