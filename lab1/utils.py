@@ -4,6 +4,9 @@ import tracemalloc
 
 # Universal file reader that returns the content as a list of strings
 def read_file(file_path):
+    if not os.path.isfile(file_path):
+        print(f"Ошибка: Файл '{file_path}' не найден.")
+        return []
     with open(file_path, 'r') as file:
         return [line.strip() for line in file.readlines()]
 
@@ -18,13 +21,15 @@ def write_to_file(file_path, data):
 # Read integers from file, but cope if the format changes
 def read_integers_from_file(file_path):
     lines = read_file(file_path)
+    if not lines:  # Check if the read was successful
+        return 0, []  # Return empty values if file was not found
     n = int(lines[0])
     arr = list(map(int, lines[1].split()))  
     return n, arr
 
 # Write a list of integers to a file
 def write_array_to_file(file_path, arr):
-    write_to_file(file_path, [" ".join(map(str, arr))])
+    write_to_file(file_path, arr)
 
 # Universal func for performance measurement
 def measure_performance(func, *args):
@@ -45,3 +50,4 @@ def measure_performance(func, *args):
     print(f"Общее использование памяти: {total_memory_usage} байт")
     
     return result
+
