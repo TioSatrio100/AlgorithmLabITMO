@@ -28,8 +28,10 @@ def read_integers_from_file(file_path):
     return n, arr
 
 # Write a list of integers to a file
-def write_array_to_file(file_path, arr):
-    write_to_file(file_path, arr)
+def write_array_to_file(file_path, data):
+    with open(file_path, 'w') as f:
+        f.write(" ".join(map(str, data)) + "\n")
+
 
 # Universal func for performance measurement
 def measure_performance(func, *args):
