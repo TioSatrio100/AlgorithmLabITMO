@@ -1,7 +1,7 @@
 import sys
 import os
 
-base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
 from utils import measure_performance, read_data, write_output
@@ -55,10 +55,10 @@ def process_file(input_file_path, output_file_path):
         print("Предупреждение: Входной файл не содержит допустимых цен.")
 
 def main():
-    base_dir = 'task6'
-    input_file_path = os.path.join(base_dir, 'input.txt')
-    output_file_path = os.path.join(base_dir, 'output.txt')
-    
+    script_dir = os.path.dirname(__file__)
+    base_dir = os.path.abspath(os.path.join(script_dir, '..', '..', 'task6'))
+    input_file_path = os.path.join(base_dir, 'txtf', 'input.txt')
+    output_file_path = os.path.join(base_dir, 'txtf', 'output.txt')
     measure_performance(process_file, input_file_path, output_file_path)
 
 if __name__ == "__main__":

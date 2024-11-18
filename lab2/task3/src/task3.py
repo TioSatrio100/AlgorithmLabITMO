@@ -1,7 +1,7 @@
 import sys
 import os
 
-base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
 from utils import read_integers_from_file, write_array_to_file, measure_performance

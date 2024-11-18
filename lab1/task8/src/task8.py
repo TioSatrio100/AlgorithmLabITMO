@@ -21,6 +21,8 @@ def bubble_sort_with_swaps(arr):
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swaps.append(f"Swap elements at indices {i + 1} and {i + 2}.\n")
                 sorted = False
+        if sorted:
+            swaps.append("No more swaps needed.\n")
 
     return arr, swaps
 
