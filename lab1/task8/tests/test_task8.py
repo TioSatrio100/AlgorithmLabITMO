@@ -1,15 +1,22 @@
+from task8 import process_file
 import unittest
+import time
+import tracemalloc
 import os
-from task8.src.task8 import process_file
+import sys
+
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
 
 class TestProcessFile(unittest.TestCase):
 
     def setUp(self):
         self.input_file_path = 'test_input.txt'
         self.output_file_path = 'test_output.txt'
-        
+
         with open(self.input_file_path, 'w') as f:
-            f.write("7\n3 1 4 2 2 3 4\n")  # Contoh input
+            f.write("7\n3 1 4 2 2 3 4\n")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):
@@ -19,20 +26,39 @@ class TestProcessFile(unittest.TestCase):
 
     def test_process_file(self):
         process_file(self.input_file_path, self.output_file_path)
-        
-        with open(self.output_file_path, 'r') as f:
-            output_data = f.read().strip() 
 
-        expected_output = (
+        with open(self.output_file_path, 'r') as f:
+            output_data = f.read().strip()
+
+        self.assertEqual(output_data,  
             "Swap elements at indices 1 and 2. "
             "Swap elements at indices 3 and 4. "
             "Swap elements at indices 4 and 5. "
             "Swap elements at indices 5 and 6. "
             "Swap elements at indices 2 and 3. "
-            "Swap elements at indices 3 and 4."
-        )
-        
-        self.assertEqual(output_data, expected_output.strip())  
+            "Swap elements at indices 3 and 4.")
+
+    def test_performance_process_file(self):
+        large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))
+        with open(self.input_file_path, 'w') as f:
+            f.write(large_input)
+
+        start_time = time.time()
+        process_file(self.input_file_path, self.output_file_path)
+        end_time = time.time()
+        execution_time = end_time - start_time
+
+        tracemalloc.start()
+        process_file(self.input_file_path, self.output_file_path)
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+
+        print(f"Execution Time: {execution_time} seconds")
+        print(f"Peak Memory Usage: {peak / 10**6} MB")
+
+        self.assertLess(execution_time, 10)
+        self.assertLess(peak / 10**6, 100)
+
 
 if __name__ == '__main__':
     unittest.main()
