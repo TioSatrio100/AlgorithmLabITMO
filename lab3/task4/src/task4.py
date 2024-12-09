@@ -1,10 +1,10 @@
-from utils import read_lines_from_file, write_array_to_file, measure_performance
 import sys
 import os
 
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
+from utils import read_lines_from_file, write_array_to_file, measure_performance
 
 def count_segments_covering_points(segments, points):
     events = []

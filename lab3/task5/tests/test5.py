@@ -16,7 +16,7 @@ class TestProcessFile(unittest.TestCase):
         self.output_file_path = 'test_output.txt'
 
         with open(self.input_file_path, 'w') as f:
-            f.write("5/n 4 1 2 3 5/n")
+            f.write("3,0,6,1,5 ")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):
@@ -30,7 +30,7 @@ class TestProcessFile(unittest.TestCase):
         with open(self.output_file_path, 'r') as f:
             output_data = f.read().strip()
 
-        self.assertEqual(output_data, "1 2 3 4 5")
+        self.assertEqual(output_data, "3")
 
     def test_performance_process_file(self):
         large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))

@@ -9,6 +9,15 @@ def read_file(file_path):
         return []
     with open(file_path, 'r') as file:
         return [line.strip() for line in file.readlines()]
+    
+def read_lines_from_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.readlines()
+
+
+def write_array_to_file(file_path, array):
+    with open(file_path, 'w') as file:
+        file.write(" ".join(map(str, array)) + "\n")
 
 # Read integers from file
 def read_integers_from_file(file_path):
@@ -37,9 +46,10 @@ def read_problem_input(file_path):
     return n, m, sizes
 
 # Write output results to a file
-def write_output_file(output_file, results):
-    with open(output_file, 'w') as file:
+def write_output_file(file_path, results):
+    with open(file_path, 'w', encoding='utf-8') as file:
         file.write(" ".join(map(str, results)) + "\n")
+
 
 # Read data from a input file for stock
 def read_data(filename):
@@ -56,6 +66,8 @@ def read_data(filename):
             else:
                 print(f"Предупреждение: Найдена и проигнорирована некорректная строка: {line}")
     return dates, prices
+
+
 
 # Write formatted output to a file fro stock data
 def write_output(filename, company_name, period, buy_date, sell_date, max_profit):

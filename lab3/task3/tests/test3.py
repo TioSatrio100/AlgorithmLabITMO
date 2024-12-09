@@ -30,7 +30,7 @@ class TestProcessFile(unittest.TestCase):
         with open(self.output_file_path, 'r') as f:
             output_data = f.read().strip()
 
-        self.assertEqual(output_data, "Y E S")
+        self.assertEqual(output_data, "Д А")
 
     def test_performance_process_file(self):
         large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))

@@ -1,10 +1,10 @@
-from utils import read_integers_from_file, write_array_to_file, measure_performance
 import sys
 import os
 
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
+from utils import read_integers_from_file, write_array_to_file, measure_performance
 
 def generate_worst_case(n):
     arr = []
@@ -49,8 +49,6 @@ def process_file(input_file_path, output_file_path):
     if not (1 <= n <= 10**6):
         raise ValueError(
             "Значение n находится вне допустимого диапазона: 1 ≤ n ≤ 10^6")
-    if n == 3:
-        result = [1, 3, 2]
     else:
         worst_case = generate_worst_case(n)
         result, comparisons = qsort(worst_case, 0, n - 1)

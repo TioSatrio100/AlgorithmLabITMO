@@ -1,4 +1,3 @@
-from utils import read_integers_from_file, write_array_to_file, measure_performance
 import sys
 import os
 import random
@@ -6,22 +5,7 @@ import random
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
-
-'''
-#standard quick sort
-def quick_sort(arr):
-    if len(arr) <= 1:
-        return arr 
-    else:
-       pivot = arr[len(arr) // 2]
-       left = [x for x in arr if x < pivot]
-       middle = [x for x in arr if x == pivot]
-       right = [x for x in arr if x > pivot]
-       return quick_sort(left) + middle + quick_sort(right)
-'''
-
-# standard randomized quick sort with 3-way partitioning
-
+from utils import read_integers_from_file, write_array_to_file, measure_performance
 
 def randomized_quick_sort(arr, low, high):
     if low >= high:

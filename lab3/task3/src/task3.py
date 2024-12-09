@@ -1,10 +1,11 @@
-from utils import read_problem_input, write_output_file, measure_performance
+
 import sys
 import os
 
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
+from utils import read_problem_input, write_output_file, measure_performance
 
 def qsort(a, left, right):
     if left < right:
@@ -40,7 +41,7 @@ def process_file(input_file_path, output_file_path):
 
     qsort(sizes, 0, len(sizes) - 1)
 
-    result = "YES" if is_non_decreasing(sizes) else "NO"
+    result = "ДА" if is_non_decreasing(sizes) else "НЕТ"
     write_output_file(output_file_path, result)
 
 
