@@ -1,4 +1,3 @@
-from task5 import process_file
 import unittest
 import time
 import tracemalloc
@@ -8,6 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
+from task5 import process_file
 
 class TestProcessFile(unittest.TestCase):
 
@@ -16,7 +16,7 @@ class TestProcessFile(unittest.TestCase):
         self.output_file_path = 'test_output.txt'
 
         with open(self.input_file_path, 'w') as f:
-            f.write("3,0,6,1,5 ")
+            f.write("3,0,6,1,5")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):

@@ -10,11 +10,12 @@ def read_file(file_path):
     with open(file_path, 'r') as file:
         return [line.strip() for line in file.readlines()]
     
+#file reader for specisfic format
 def read_lines_from_file(file_path):
     with open(file_path, 'r') as file:
         return file.readlines()
 
-
+#write array to file
 def write_array_to_file(file_path, array):
     with open(file_path, 'w') as file:
         file.write(" ".join(map(str, array)) + "\n")
@@ -66,7 +67,6 @@ def read_data(filename):
             else:
                 print(f"Предупреждение: Найдена и проигнорирована некорректная строка: {line}")
     return dates, prices
-
 
 
 # Write formatted output to a file fro stock data
