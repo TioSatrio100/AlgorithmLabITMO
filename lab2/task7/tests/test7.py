@@ -1,4 +1,3 @@
-from task7 import process_file
 import unittest
 import time
 import tracemalloc
@@ -8,6 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
+from task7 import process_file
 
 class TestProcessFile(unittest.TestCase):
 
