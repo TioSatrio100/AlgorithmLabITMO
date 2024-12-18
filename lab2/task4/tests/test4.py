@@ -1,4 +1,3 @@
-from task4 import process_file
 import unittest
 import time
 import tracemalloc

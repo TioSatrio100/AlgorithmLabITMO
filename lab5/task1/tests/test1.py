@@ -5,8 +5,7 @@ import os
 import sys
 
 
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '../src')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 from task1 import process_file
 
@@ -17,7 +16,7 @@ class TestProcessFile(unittest.TestCase):
         self.output_file_path = 'test_output.txt'
 
         with open(self.input_file_path, 'w') as f:
-            f.write("6\n31 41 59 26 41 58\n")
+            f.write("5\n2 3 9 2 2\n")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):
@@ -31,7 +30,7 @@ class TestProcessFile(unittest.TestCase):
         with open(self.output_file_path, 'r') as f:
             output_data = f.read().strip()
 
-        self.assertEqual(output_data, "26 31 41 41 58 59")
+        self.assertEqual(output_data, "YES")
 
     def test_performance_process_file(self):
         large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))
