@@ -4,7 +4,7 @@ import os
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
-from utils import measure_performance
+from utils import measure_performance, read_lines_from_file, write_lines_to_file
 
 class Node:
     def __init__(self, data):
@@ -42,13 +42,12 @@ class Stack:
 
 def process_stack_operations(input_file_path, output_file_path):
     stack = Stack()
-    with open(input_file_path, 'r') as file:
-        operations = file.readlines()
+    operations = read_lines_from_file(input_file_path) 
     
     result = []
     
     for operation in operations:
-        parts = operation.strip().split()
+        parts = operation.split()
         command = parts[0]
         
         if command == "push":
@@ -61,8 +60,8 @@ def process_stack_operations(input_file_path, output_file_path):
         elif command == "print":
             result.append(stack.print_stack())
     
-    with open(output_file_path, 'w') as file:
-        file.write("\n".join(result))
+    write_lines_to_file(output_file_path, result) 
+
 
 def main():
     script_dir = os.path.dirname(__file__)

@@ -1,106 +1,63 @@
-import unittest
-import time
-import tracemalloc
-import os
 import sys
+import os
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(base_dir)
 
-from task10 import process_file
+from utils import read_special_case_10, write_array_to_file, measure_performance
 
-class TestCustomerQueue(unittest.TestCase):
-
-    def setUp(self):
-        self.input_file_path = 'test_input.txt'
-        self.output_file_path = 'test_output.txt'
-
-    def tearDown(self):
-        if os.path.exists(self.input_file_path):
-            os.remove(self.input_file_path)
-        if os.path.exists(self.output_file_path):
-            os.remove(self.output_file_path)
-
-    def test_single_customer(self):
-        input_data = "1\n10 0 0"
-        expected_output = "10 10"
-
-        with open(self.input_file_path, 'w') as f:
-            f.write(input_data)
+def calculate_exit_times(n, customers):
+    current_time = 0
+    queue = []
+    result = []
+    
+    for arrival_time, impatience in customers:
+        queue_size = len(queue)
         
-        process_file(self.input_file_path, self.output_file_path)
-
-        with open(self.output_file_path, 'r') as f:
-            output_data = f.read().strip()
-
-        self.assertEqual(output_data, expected_output)
-
-    def test_multiple_customers_no_impatience(self):
-        input_data = "2\n10 0 0\n10 10 0"
-        expected_output = "10 10\n10 20"
-
-        with open(self.input_file_path, 'w') as f:
-            f.write(input_data)
-
-        process_file(self.input_file_path, self.output_file_path)
-
-        with open(self.output_file_path, 'r') as f:
-            output_data = f.read().strip()
-
-        self.assertEqual(output_data, expected_output)
-
-    def test_customer_leaves_due_to_impatience(self):
-        input_data = "2\n10 0 0\n10 5 0"
-        expected_output = "10 10\n10 5"
-
-        with open(self.input_file_path, 'w') as f:
-            f.write(input_data)
+        if queue_size > impatience:
+            result.append(arrival_time)
+            continue
         
-        process_file(self.input_file_path, self.output_file_path)
-
-        with open(self.output_file_path, 'r') as f:
-            output_data = f.read().strip()
-
-        self.assertEqual(output_data, expected_output)
-
-    def test_impatience_with_large_queue(self):
-        input_data = "3\n10 0 0\n10 5 0\n10 15 1"
-        expected_output = "10 10\n10 5\n10 25"
-
-        with open(self.input_file_path, 'w') as f:
-            f.write(input_data)
-
-        process_file(self.input_file_path, self.output_file_path)
-
-        with open(self.output_file_path, 'r') as f:
-            output_data = f.read().strip()
-
-        self.assertEqual(output_data, expected_output)
-
-    def test_performance(self):
-        large_input = "1000\n" + "\n".join(f"{10 + i // 60} {i % 60} {i % 3}" for i in range(1000))
+        exit_time = arrival_time + 10
+        queue.append(exit_time)
         
-        with open(self.input_file_path, 'w') as f:
-            f.write(large_input)
+        while queue and queue[0] <= arrival_time:
+            queue.pop(0)
         
-        start_time = time.time()
-        process_file(self.input_file_path, self.output_file_path)
-        end_time = time.time()
+        result.append(exit_time)
+    
+    return result
 
-        execution_time = end_time - start_time
+def process_file(input_file_path, output_file_path):
+    data = read_special_case_10(input_file_path)
+    n = int(data[0])
+    
+    customers = []
+    for i in range(n):
+        hours, minutes, impatience = data[3*i + 1], data[3*i + 2], data[3*i + 3]
+        arrival_time = hours * 60 + minutes
+        customers.append((arrival_time, impatience))
+    
+    exit_times = calculate_exit_times(n, customers)
+    
+    result = []
+    for time in exit_times:
+        hours = time // 60
+        minutes = time % 60
+        result.append(f"{hours} {minutes}")
+    
+    write_array_to_file(output_file_path, result)
 
-        tracemalloc.start()
-        process_file(self.input_file_path, self.output_file_path)
-        current, peak = tracemalloc.get_traced_memory()
-        tracemalloc.stop()
+def main():
+    script_dir = os.path.dirname(__file__)
+    base_dir = os.path.abspath(os.path.join(script_dir, '..', '..', 'task10'))
+    input_file_path = os.path.join(base_dir, 'txtf', 'input1.txt')
+    output_file_path = os.path.join(base_dir, 'txtf', 'output1.txt')
+    
+    measure_performance(process_file, input_file_path, output_file_path)
 
-        print(f"Execution Time: {execution_time} seconds")
-        print(f"Peak Memory Usage: {peak / 10**6} MB")
-
-        self.assertLess(execution_time, 5)
-        self.assertLess(peak / 10**6, 100)
-
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == "__main__":
+    main()
 
 
 

@@ -4,7 +4,7 @@ import os
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(base_dir)
 
-from utils import measure_performance
+from utils import measure_performance,  read_lines_from_file, write_lines_to_file
 
 class Node:
     def __init__(self, data):
@@ -30,7 +30,7 @@ class Queue:
         
         new_node = Node(data)
         
-        if self.rear is None:  # If the queue is empty
+        if self.rear is None: 
             self.front = self.rear = new_node
         else:
             self.rear.next = new_node
@@ -44,7 +44,7 @@ class Queue:
         
         dequeued_data = self.front.data
         self.front = self.front.next
-        if self.front is None:  # If the queue becomes empty after dequeuing
+        if self.front is None:  
             self.rear = None
         self.size -= 1
         return dequeued_data
@@ -60,22 +60,20 @@ class Queue:
             current = current.next
         return " -> ".join(result)
 
-
 def process_queue_operations(input_file_path, output_file_path):
     queue = Queue()
-    with open(input_file_path, 'r') as file:
-        operations = file.readlines()
-
+    operations = read_lines_from_file(input_file_path) 
+    
     result = []
     
     for operation in operations:
-        operation = operation.strip()  # Menghapus spasi di awal dan akhir
-        if not operation:  # Skip baris kosong
+        operation = operation.strip()  
+        if not operation:  
             continue
         
         parts = operation.split()
         
-        if not parts:  # Jika parts kosong, lanjutkan ke baris berikutnya
+        if not parts:
             continue
         
         command = parts[0]
@@ -89,8 +87,7 @@ def process_queue_operations(input_file_path, output_file_path):
         elif command == "print":
             result.append(queue.print_queue())
     
-    with open(output_file_path, 'w') as file:
-        file.write("\n".join(result))
+    write_lines_to_file(output_file_path, result)  
 
 
 def main():
