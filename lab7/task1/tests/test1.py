@@ -7,7 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from task3 import process_file
+from task1 import process_file
 
 class TestProcessFile(unittest.TestCase):
 
@@ -16,7 +16,7 @@ class TestProcessFile(unittest.TestCase):
         self.output_file_path = 'test_output.txt'
 
         with open(self.input_file_path, 'w') as f:
-            f.write("5 3 /n 1 5 3 4 1/n")
+            f.write("2 3\n1 3 4\n")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):
@@ -30,7 +30,7 @@ class TestProcessFile(unittest.TestCase):
         with open(self.output_file_path, 'r') as f:
             output_data = f.read().strip()
 
-        self.assertEqual(output_data, "Д А")
+        self.assertEqual(output_data, "2")
 
     def test_performance_process_file(self):
         large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))

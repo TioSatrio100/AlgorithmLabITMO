@@ -1,13 +1,12 @@
 import unittest
-import time
-import tracemalloc
 import os
 import sys
-
+import time
+import tracemalloc
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from task3 import process_file
+from task2 import process_file, optimal_sequence
 
 class TestProcessFile(unittest.TestCase):
 
@@ -16,7 +15,7 @@ class TestProcessFile(unittest.TestCase):
         self.output_file_path = 'test_output.txt'
 
         with open(self.input_file_path, 'w') as f:
-            f.write("5 3 /n 1 5 3 4 1/n")
+            f.write("5\n")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):
@@ -28,9 +27,18 @@ class TestProcessFile(unittest.TestCase):
         process_file(self.input_file_path, self.output_file_path)
 
         with open(self.output_file_path, 'r') as f:
-            output_data = f.read().strip()
+            output_data = f.readlines()
+        
+        self.assertEqual(output_data[0].strip(), '3')
+        self.assertEqual(output_data[1].strip(), '1 2 4 5')
 
-        self.assertEqual(output_data, "Д А")
+    def test_optimal_sequence(self):
+        result = optimal_sequence(5)
+        self.assertEqual(result, [1, 2, 4, 5])
+
+        result = optimal_sequence(96234)
+        expected_result = [1, 3, 9, 10, 11, 22, 66, 198, 594, 1782, 5346, 16038, 16039, 32078, 96234]
+        self.assertEqual(result, expected_result)
 
     def test_performance_process_file(self):
         large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))
@@ -53,6 +61,6 @@ class TestProcessFile(unittest.TestCase):
         self.assertLess(execution_time, 10)
         self.assertLess(peak / 10**6, 100)
 
-
 if __name__ == '__main__':
     unittest.main()
+

@@ -4,10 +4,9 @@ import tracemalloc
 import os
 import sys
 
-
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from task3 import process_file
+from task5 import process_file
 
 class TestProcessFile(unittest.TestCase):
 
@@ -16,7 +15,7 @@ class TestProcessFile(unittest.TestCase):
         self.output_file_path = 'test_output.txt'
 
         with open(self.input_file_path, 'w') as f:
-            f.write("5 3 /n 1 5 3 4 1/n")
+            f.write("McCain 10\nMcCain 5\nObama 9\nObama 8\nMcCain 1\n")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):
@@ -30,10 +29,11 @@ class TestProcessFile(unittest.TestCase):
         with open(self.output_file_path, 'r') as f:
             output_data = f.read().strip()
 
-        self.assertEqual(output_data, "Д А")
+        expected_output = "McCain 16\nObama 17\n"
+        self.assertEqual(output_data, expected_output)
 
     def test_performance_process_file(self):
-        large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))
+        large_input = "Ivanov 100\n" + "Ivanov 500\n" + "Petr 70\n" + "Tourist 3\n" * 1000
         with open(self.input_file_path, 'w') as f:
             f.write(large_input)
 
@@ -56,3 +56,4 @@ class TestProcessFile(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

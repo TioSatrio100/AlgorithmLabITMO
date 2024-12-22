@@ -4,19 +4,18 @@ import tracemalloc
 import os
 import sys
 
-
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from task3 import process_file
+from task7 import process_file
 
-class TestProcessFile(unittest.TestCase):
+class TestProcessFibonacci(unittest.TestCase):
 
     def setUp(self):
         self.input_file_path = 'test_input.txt'
         self.output_file_path = 'test_output.txt'
 
         with open(self.input_file_path, 'w') as f:
-            f.write("5 3 /n 1 5 3 4 1/n")
+            f.write("5\n8\n1\n2\n3\n5\n")
 
     def tearDown(self):
         if os.path.exists(self.input_file_path):
@@ -30,10 +29,11 @@ class TestProcessFile(unittest.TestCase):
         with open(self.output_file_path, 'r') as f:
             output_data = f.read().strip()
 
-        self.assertEqual(output_data, "Д А")
+        expected_output = "Yes\nYes\nYes\nYes\nYes\n"
+        self.assertEqual(output_data, expected_output)
 
     def test_performance_process_file(self):
-        large_input = "1000\n" + " ".join(str(i) for i in range(1000, 0, -1))
+        large_input = "\n".join(str(i) for i in range(1, 10001))
         with open(self.input_file_path, 'w') as f:
             f.write(large_input)
 
@@ -50,9 +50,9 @@ class TestProcessFile(unittest.TestCase):
         print(f"Execution Time: {execution_time} seconds")
         print(f"Peak Memory Usage: {peak / 10**6} MB")
 
-        self.assertLess(execution_time, 10)
-        self.assertLess(peak / 10**6, 100)
-
+        self.assertLess(execution_time, 2)
+        self.assertLess(peak / 10**6, 128)
 
 if __name__ == '__main__':
     unittest.main()
+
